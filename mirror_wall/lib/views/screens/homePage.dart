@@ -38,8 +38,7 @@ class HomePage extends StatelessWidget {
         body: InAppWebView(
           initialUrlRequest: URLRequest(
             url: Uri.parse(
-              provider.searchEngineURL ??
-                  "https://www.google.com/webhp?authuser=2",
+              provider.browserURL,
             ),
           ),
           onLoadStart: (controller, url) {
@@ -66,8 +65,19 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(12),
                         child: Column(
                           children: [
+                            const Text(
+                              "SearchBar",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
                             TextFormField(
                               decoration: InputDecoration(
+                                hintText: "  Search here",
                                 isDense: true,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
@@ -77,24 +87,134 @@ class HomePage extends StatelessWidget {
                                   size: 24,
                                 ),
                               ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                provider.changeSearchEngine(index: 0);
+                              onFieldSubmitted: (value) {
+                                provider.search(data: value);
+                                Navigator.pop(context);
                               },
-                              child: const Text("Google"),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                provider.changeSearchEngine(index: 1);
-                              },
-                              child: const Text("MicroSoft Edge"),
+                            const SizedBox(
+                              height: 12,
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                provider.changeSearchEngine(index: 2);
-                              },
-                              child: const Text("DuckDuck GO"),
+                            const Text(
+                              "Browsers",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Card(
+                              child: ListTile(
+                                title: const Text(
+                                  "Google",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                leading: Image.asset(
+                                  "asset/images/google.png",
+                                  scale: 1.3,
+                                ),
+                                tileColor: (provider.browser == "google")
+                                    ? Colors.yellow
+                                    : null,
+                                onTap: () {
+                                  provider.changeBrowser(browserName: "google");
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            Card(
+                              child: ListTile(
+                                title: const Text(
+                                  "Microsoft Edge",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                leading: Image.asset(
+                                  "asset/images/edge.png",
+                                  scale: 1.3,
+                                ),
+                                tileColor: (provider.browser == "bring")
+                                    ? Colors.yellow
+                                    : null,
+                                onTap: () {
+                                  provider.changeBrowser(browserName: "bring");
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            Card(
+                              child: ListTile(
+                                title: const Text(
+                                  "DuckDuckGo",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                leading: Image.asset(
+                                  "asset/images/duckduckgo.png",
+                                  scale: 1.3,
+                                ),
+                                tileColor: (provider.browser == "duckduckGO")
+                                    ? Colors.yellow
+                                    : null,
+                                onTap: () {
+                                  provider.changeBrowser(
+                                      browserName: "duckduckGO");
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            Card(
+                              child: ListTile(
+                                title: const Text(
+                                  "Yahoo",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                leading: Image.asset(
+                                  "asset/images/yahoo.png",
+                                  scale: 1.3,
+                                ),
+                                tileColor: (provider.browser == "yahoo")
+                                    ? Colors.yellow
+                                    : null,
+                                onTap: () {
+                                  provider.changeBrowser(browserName: "yahoo");
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            Card(
+                              child: ListTile(
+                                title: const Text(
+                                  "Brave",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                leading: Image.asset(
+                                  "asset/images/brave.png",
+                                  scale: 1.3,
+                                ),
+                                tileColor: (provider.browser == "brave")
+                                    ? Colors.yellow
+                                    : null,
+                                onTap: () {
+                                  provider.changeBrowser(browserName: "brave");
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -133,9 +253,11 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  provider.back();
-                },
+                onPressed: provider.getCanBack
+                    ? () {
+                        provider.back();
+                      }
+                    : null,
                 icon: const Column(
                   children: [
                     Icon(
@@ -167,9 +289,11 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  provider.forward();
-                },
+                onPressed: provider.getCanForward
+                    ? () {
+                        provider.forward();
+                      }
+                    : null,
                 icon: const Column(
                   children: [
                     Icon(
