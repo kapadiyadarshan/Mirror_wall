@@ -1,16 +1,9 @@
 # mirror_wall
 
-A new Flutter project.
+<img src = "https://github.com/kapadiyadarshan/Mirror_wall/assets/121553877/41fd9442-5cb9-4b0d-850e-5083f7aec8ee" width=300>
 
-## Getting Started
+<img src = "https://github.com/kapadiyadarshan/Mirror_wall/assets/121553877/243623e1-6bfe-42d5-81d4-07be7c4878e3" width=300>
 
-This project is a starting point for a Flutter application.
+<img src = "https://github.com/kapadiyadarshan/Mirror_wall/assets/121553877/33821d8a-b670-4e3f-b205-3fc2cefc7aed" width=300>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://github.com/kapadiyadarshan/Mirror_wall/assets/121553877/7723647e-ec4f-4fd5-a676-8332e3827246
