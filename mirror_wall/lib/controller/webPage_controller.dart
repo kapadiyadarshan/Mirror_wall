@@ -10,9 +10,16 @@ class WebPageController extends ChangeNotifier {
   String browser = "google";
 
   String browserURL = "";
+  String currentURL = "";
+  String currentSearchData = "";
+
+  List<Map> bookMarkList = [];
 
   bool _canBack = false;
   bool _canForward = false;
+  bool _canPop = false;
+
+  double progressValue = 0;
 
   initController({required InAppWebViewController controller}) {
     _controller = controller;
@@ -37,6 +44,8 @@ class WebPageController extends ChangeNotifier {
     };
 
     browserURL = searchEngineURLList[browser];
+    currentURL = browserURL;
+    currentSearchData = searchData;
 
     if (_controller != null) {
       _controller!.loadUrl(
@@ -82,6 +91,60 @@ class WebPageController extends ChangeNotifier {
 
   back() {
     _controller!.goBack();
+    notifyListeners();
+  }
+
+  refresh() {
+    _controller!.reload();
+    notifyListeners();
+  }
+
+  addBookMark() {
+    setData();
+
+    if (!bookMarkList.contains({
+      "search": "${currentSearchData}",
+      "url": "${currentURL}",
+    })) {
+      bookMarkList.add({
+        "search": "${currentSearchData}",
+        "url": "${currentURL}",
+      });
+    }
+
+    notifyListeners();
+  }
+
+  removeBookMark({required int index}) {
+    bookMarkList.removeAt(index);
+    notifyListeners();
+  }
+
+  searchBookMark({required String data}) {
+    _controller!.loadUrl(
+      urlRequest: URLRequest(
+        url: Uri.parse(data),
+      ),
+    );
+    notifyListeners();
+  }
+
+  get getCanPopValue {
+    return _canPop;
+  }
+
+  canPopCheck() {
+    if (_canBack) {
+      _canPop = false;
+      back();
+    } else {
+      _canPop = true;
+    }
+    notifyListeners();
+  }
+
+  loading({required int pro}) {
+    progressValue = (pro / 100);
     notifyListeners();
   }
 }
