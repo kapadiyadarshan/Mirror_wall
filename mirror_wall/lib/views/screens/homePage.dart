@@ -31,10 +31,10 @@ class HomePage extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, MyRoute.bookMarkPage);
+                  Navigator.of(context).pushNamed(MyRoute.bookMarkPage);
                 },
                 icon: const Icon(
-                  Icons.bookmark_add,
+                  Icons.list,
                 ),
               ),
             ],
@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
                         value: provider.progressValue,
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
           bottomNavigationBar: Container(
@@ -100,23 +100,38 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     provider.addBookMark();
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          "Add BookMark !!",
-                          textAlign: TextAlign.center,
+                    if (provider.getBookMarkValue) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            "Add BookMark !!",
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: MyColor.theme1,
+                          duration: const Duration(seconds: 2),
                         ),
-                        backgroundColor: MyColor.theme1,
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "Remove Bookmark !!",
+                            textAlign: TextAlign.center,
+                          ),
+                          backgroundColor: Colors.redAccent,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   },
-                  icon: const Column(
+                  icon: Column(
                     children: [
                       Icon(
-                        Icons.bookmark,
+                        provider.getBookMarkValue
+                            ? Icons.bookmark_remove
+                            : Icons.bookmark_add,
                       ),
-                      Text(
+                      const Text(
                         "Bookmark",
                         style: TextStyle(
                           fontSize: 12,

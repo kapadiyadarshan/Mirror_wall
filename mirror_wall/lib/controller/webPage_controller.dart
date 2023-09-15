@@ -13,7 +13,8 @@ class WebPageController extends ChangeNotifier {
   String currentURL = "";
   String currentSearchData = "";
 
-  List<Map> bookMarkList = [];
+  List<String> bookMarkList = [];
+  List<String> bookMarkSearchList = [];
 
   bool _canBack = false;
   bool _canForward = false;
@@ -100,23 +101,25 @@ class WebPageController extends ChangeNotifier {
   }
 
   addBookMark() {
-    setData();
+    // setData();
 
-    if (!bookMarkList.contains({
-      "search": "${currentSearchData}",
-      "url": "${currentURL}",
-    })) {
-      bookMarkList.add({
-        "search": "${currentSearchData}",
-        "url": "${currentURL}",
-      });
+    if (bookMarkList.contains(currentURL)) {
+      bookMarkList.remove(currentURL);
+      bookMarkSearchList.remove(currentSearchData);
+    } else {
+      bookMarkList.add(currentURL);
+      bookMarkSearchList.add(currentSearchData);
     }
-
     notifyListeners();
+  }
+
+  bool get getBookMarkValue {
+    return bookMarkList.contains(currentURL);
   }
 
   removeBookMark({required int index}) {
     bookMarkList.removeAt(index);
+    bookMarkSearchList.removeAt(index);
     notifyListeners();
   }
 

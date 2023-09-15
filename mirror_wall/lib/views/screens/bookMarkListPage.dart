@@ -24,29 +24,37 @@ class BookMarkPage extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Consumer<WebPageController>(builder: (context, provider, _) {
           return (provider.bookMarkList.isEmpty)
-              ? const Center(
-                  child: Text("No Any BookMark....."),
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "asset/images/noData.png",
+                        scale: 7,
+                        fit: BoxFit.fill,
+                      ),
+                    ],
+                  ),
                 )
               : ListView.builder(
                   itemCount: provider.bookMarkList.length,
                   itemBuilder: (context, index) {
-                    Map temp = provider.bookMarkList[index];
-
                     return Card(
                       child: ListTile(
                         onTap: () {
-                          provider.searchBookMark(data: temp["url"]);
+                          provider.searchBookMark(
+                              data: provider.bookMarkList[index]);
                           Navigator.pop(context);
                         },
                         title: Text(
-                          "${temp["search"]}",
+                          "${provider.bookMarkSearchList[index]}",
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
                         ),
                         subtitle: Text(
-                          "${temp["url"]}",
+                          "${provider.bookMarkList[index]}",
                           style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                           ),
